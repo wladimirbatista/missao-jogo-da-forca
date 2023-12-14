@@ -1,36 +1,36 @@
 /* funcoes.js */
 
-// Função que verifica se a letra digitada está na palavra e atualiza a palavra oculta
-// function atualizarVariaveis(letraDigitada, erros, palavraEscolhida, palavraOculta, jogoGanho) {
-//   let novaPalavraOculta = palavraOculta
-//   let errosAtualizados = erros
-//   let novoResultadoJogoGanho = jogoGanho
+//Função que verifica se a letra digitada está na palavra e atualiza a palavra oculta
+function atualizarVariaveis(letraDigitada, erros, palavraEscolhida, palavraOculta, jogoGanho) {
+  let novaPalavraOculta = palavraOculta
+  let errosAtualizados = erros
+  let novoResultadoJogoGanho = jogoGanho
 
-//   if (palavraEscolhida.includes(letraDigitada)) { // Verifica se a letra digitada encontra-se na palavra escolhida
-//     for (let i = 0; i < palavraEscolhida.length; i++) { // loop que continua até o tamanho final da palavra escolhida
-//       if (palavraEscolhida[i] === letraDigitada) { // verifica se cada letra da palavra escolhida e igual a letra digitada
-//         novaPalavraOculta = novaPalavraOculta.substring(0, i) + letraDigitada + palavraOculta.substring(i + 1); // atualiza a palavra oculta, revelando a letra digitada
-//       }
-//     }
-//     novoResultadoJogoGanho = verificarLetrasReveladas(novaPalavraOculta)
-//   } else {
-//     errosAtualizados = incrementarErros(erros)
-//   }
-//   return {novaPalavraOculta, errosAtualizados, novoResultadoJogoGanho}
-// }
-
-function atualizarPalavraOculta(palavraOculta, letraDigitada, palavraEscolhida) {
-  let novaPalavraOculta;
-
-  // if(palavraEscolhida.includes(letraDigitada)) {
-  for (let i = 0; i < palavraEscolhida.length; i++) { // loop que continua até o tamanho final da palavra escolhida
-    if (palavraEscolhida[i] === letraDigitada) { // verifica se cada letra da palavra escolhida e igual a letra digitada
-      novaPalavraOculta = palavraOculta.substring(0, i) + letraDigitada + palavraOculta.substring(i + 1); // atualiza a palavra oculta, revelando a letra digitada
+  if (palavraEscolhida.includes(letraDigitada)) { // Verifica se a letra digitada encontra-se na palavra escolhida
+    for (let i = 0; i < palavraEscolhida.length; i++) { // loop que continua até o tamanho final da palavra escolhida
+      if (palavraEscolhida[i] === letraDigitada) { // verifica se cada letra da palavra escolhida e igual a letra digitada
+        novaPalavraOculta = novaPalavraOculta.substring(0, i) + letraDigitada + palavraOculta.substring(i + 1); // atualiza a palavra oculta, revelando a letra digitada
+      }
     }
+    novoResultadoJogoGanho = verificarLetrasReveladas(novaPalavraOculta)
+  } else {
+    errosAtualizados = incrementarErros(erros)
   }
-  // }
-  return novaPalavraOculta
+  return {novaPalavraOculta, errosAtualizados, novoResultadoJogoGanho}
 }
+
+// function atualizarPalavraOculta(palavraOculta, letraDigitada, palavraEscolhida) {
+//   let novaPalavraOculta;
+
+//   // if(palavraEscolhida.includes(letraDigitada)) {
+//   for (let i = 0; i < palavraEscolhida.length; i++) { // loop que continua até o tamanho final da palavra escolhida
+//     if (palavraEscolhida[i] === letraDigitada) { // verifica se cada letra da palavra escolhida e igual a letra digitada
+//       novaPalavraOculta = palavraOculta.substring(0, i) + letraDigitada + palavraOculta.substring(i + 1); // atualiza a palavra oculta, revelando a letra digitada
+//     }
+//   }
+//   // }
+//   return novaPalavraOculta
+// }
 
 function verificarLetrasReveladas(novaPalavraOculta) {
   if(!novaPalavraOculta.match(/[^a-z]/i)){
@@ -56,14 +56,14 @@ function verificarLetraDigitada(letraDigitada){
   }
 }
 
-// function processarLetraDigitada(letraDigitada, erros, palavraEscolhida, palavraOculta, jogoGanho) {
-//   if(verificarLetraDigitada(letraDigitada)) {
-//     return atualizarVariaveis(letraDigitada, erros, palavraEscolhida, palavraOculta, jogoGanho) // Retorna um objeto contendo a nova palavra oculta, o número de erros atualizado e o resultado do jogo
-//   } else {
-//     console.log("\nPor favor, digite uma letra válida.");
-//     return {novaPalavraOculta: palavraOculta, errosAtualizados: erros, novoResultadoJogoGanho: jogoGanho} // Se a letra não for válida, exibe uma mensagem e retorna um objeto com os valores atuais
-//   }
-// }
+function processarLetraDigitada(letraDigitada, erros, palavraEscolhida, palavraOculta, jogoGanho) {
+  if(verificarLetraDigitada(letraDigitada)) {
+    return atualizarVariaveis(letraDigitada, erros, palavraEscolhida, palavraOculta, jogoGanho) // Retorna um objeto contendo a nova palavra oculta, o número de erros atualizado e o resultado do jogo
+  } else {
+    console.log("\nPor favor, digite uma letra válida.");
+    return {novaPalavraOculta: palavraOculta, errosAtualizados: erros, novoResultadoJogoGanho: jogoGanho} // Se a letra não for válida, exibe uma mensagem e retorna um objeto com os valores atuais
+  }
+}
 
 // Função para verificar se o jogo terminou em vitoria ou derrota
 function mensagemFimDeJogo(palavraOculta, palavraEscolhida) {
@@ -78,6 +78,6 @@ function mensagemFimDeJogo(palavraOculta, palavraEscolhida) {
   }
 }
 
-// export { processarLetraDigitada, mensagemFimDeJogo };
-export { verificarLetraDigitada, verificarLetrasReveladas, atualizarPalavraOculta, incrementarErros, mensagemFimDeJogo };
+export { processarLetraDigitada, mensagemFimDeJogo };
+// export { verificarLetraDigitada, verificarLetrasReveladas, atualizarPalavraOculta, incrementarErros, mensagemFimDeJogo };
 
