@@ -1,29 +1,83 @@
-import listaDeFrutas from "../dados/dados.js";
+/* funcoes.js */
 
-// Escolhe aleatoriamente uma palavra da lista
-const palavraEscolhida = listaDeFrutas[Math.floor(Math.random() * listaDeFrutas.length)];
+// Função que verifica se a letra digitada está na palavra e atualiza a palavra oculta
+// function atualizarVariaveis(letraDigitada, erros, palavraEscolhida, palavraOculta, jogoGanho) {
+//   let novaPalavraOculta = palavraOculta
+//   let errosAtualizados = erros
+//   let novoResultadoJogoGanho = jogoGanho
 
-// cria uma versão da palavra escolhida com a letra inicial revelada e ocultando as demais letras com '-'
-let palavraOculta = palavraEscolhida[0].toUpperCase() + "_".repeat(palavraEscolhida.length - 1);
+//   if (palavraEscolhida.includes(letraDigitada)) { // Verifica se a letra digitada encontra-se na palavra escolhida
+//     for (let i = 0; i < palavraEscolhida.length; i++) { // loop que continua até o tamanho final da palavra escolhida
+//       if (palavraEscolhida[i] === letraDigitada) { // verifica se cada letra da palavra escolhida e igual a letra digitada
+//         novaPalavraOculta = novaPalavraOculta.substring(0, i) + letraDigitada + palavraOculta.substring(i + 1); // atualiza a palavra oculta, revelando a letra digitada
+//       }
+//     }
+//     novoResultadoJogoGanho = verificarLetrasReveladas(novaPalavraOculta)
+//   } else {
+//     errosAtualizados = incrementarErros(erros)
+//   }
+//   return {novaPalavraOculta, errosAtualizados, novoResultadoJogoGanho}
+// }
 
-let erros = 0;
+function atualizarPalavraOculta(palavraOculta, letraDigitada, palavraEscolhida) {
+  let novaPalavraOculta;
 
-// Função para verificar se a letra digitada está na palavra
-function verificarLetra(letraDigitada) {
-  if (palavraEscolhida.includes(letraDigitada)) {
-    // Atualiza a palavra oculta com a letraDigitada revelada
-    for (let i = 0; i < palavraEscolhida.length; i++) {
-      if (palavraEscolhida[i] === letraDigitada) {
-        palavraOculta = palavraOculta.substring(0, i) + letraDigitada + palavraOculta.substring(i + 1);
-      }
+  // if(palavraEscolhida.includes(letraDigitada)) {
+  for (let i = 0; i < palavraEscolhida.length; i++) { // loop que continua até o tamanho final da palavra escolhida
+    if (palavraEscolhida[i] === letraDigitada) { // verifica se cada letra da palavra escolhida e igual a letra digitada
+      novaPalavraOculta = palavraOculta.substring(0, i) + letraDigitada + palavraOculta.substring(i + 1); // atualiza a palavra oculta, revelando a letra digitada
     }
-  } else {
-    if (erros < 3) {
-      console.log(`OPÇÃO ERRADA! Você ainda tem ${3 - erros} chances!`);
-    }
-    erros++; // Incrementa o número de erros
+  }
+  // }
+  return novaPalavraOculta
+}
+
+function verificarLetrasReveladas(novaPalavraOculta) {
+  if(!novaPalavraOculta.match(/[^a-z]/i)){
+    return true
   }
 }
 
-export { palavraEscolhida, palavraOculta, erros, verificarLetra };
+// Função para incrementar o número de erros
+function incrementarErros(erros) { 
+  if (erros < 3) {
+    console.log(`OPÇÃO ERRADA! Você ainda tem ${3 - erros} chances!`);
+  }
+  erros++; // Incrementa o número de erros
+  return erros;
+}
+
+// Função para verificar se a letra digitada é um caractere único alfabético (entre 'a' a 'z')
+function verificarLetraDigitada(letraDigitada){
+  if(letraDigitada.length === 1 && letraDigitada.match(/[a-z]/)){
+    return true
+  } else {
+    return false
+  }
+}
+
+// function processarLetraDigitada(letraDigitada, erros, palavraEscolhida, palavraOculta, jogoGanho) {
+//   if(verificarLetraDigitada(letraDigitada)) {
+//     return atualizarVariaveis(letraDigitada, erros, palavraEscolhida, palavraOculta, jogoGanho) // Retorna um objeto contendo a nova palavra oculta, o número de erros atualizado e o resultado do jogo
+//   } else {
+//     console.log("\nPor favor, digite uma letra válida.");
+//     return {novaPalavraOculta: palavraOculta, errosAtualizados: erros, novoResultadoJogoGanho: jogoGanho} // Se a letra não for válida, exibe uma mensagem e retorna um objeto com os valores atuais
+//   }
+// }
+
+// Função para verificar se o jogo terminou em vitoria ou derrota
+function mensagemFimDeJogo(palavraOculta, palavraEscolhida) {
+  if (palavraOculta === palavraEscolhida) {
+    console.log("\n--------------PARABÉNS!---------------");
+    console.log(`Você acertou o nome da fruta: ${palavraOculta}`);
+    console.log("--------------------------------------");
+  } else {
+    console.log("\n-------------VOCÊ PERDEU!-------------");
+    console.log(`O nome da fruta é: ${palavraEscolhida}`);
+    console.log("--------------------------------------");
+  }
+}
+
+// export { processarLetraDigitada, mensagemFimDeJogo };
+export { verificarLetraDigitada, verificarLetrasReveladas, atualizarPalavraOculta, incrementarErros, mensagemFimDeJogo };
 

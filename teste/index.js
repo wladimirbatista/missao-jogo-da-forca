@@ -1,8 +1,7 @@
 import entradaDados from "readline-sync";
 import listaDeFrutas from "./dados/dados.js";
-import { verificarLetraDigitada, verificarLetrasReveladas, atualizarPalavraOculta, incrementarErros, mensagemFimDeJogo } from "./funcoes/funcoes.js";
 
-// import { processarLetraDigitada, mensagemFimDeJogo } from "./funcoes/funcoes.js";
+import { processarLetraDigitada, mensagemFimDeJogo } from "./funcoes/funcoes.js";
 
 function jogarForca() { // Função principal do jogo
 
@@ -28,23 +27,12 @@ function jogarForca() { // Função principal do jogo
     const letraDigitada = entradaDados.question("Digite uma letra: ").toLowerCase();
 
     // Chama a função processarLetraDigitada e armazena as variáveis atualizadas
-    // const resultado = processarLetraDigitada(letraDigitada, erros, palavraEscolhida, palavraOculta, jogoGanho);
-
-    if (verificarLetraDigitada(letraDigitada) && palavraEscolhida.includes(letraDigitada)) {
-      palavraOculta = atualizarPalavraOculta(palavraOculta, letraDigitada, palavraEscolhida);
-      if (palavraOculta.includes(letraDigitada)) {
-        jogoGanho = verificarLetrasReveladas(palavraOculta)
-      } else {
-        erros = incrementarErros(erros);
-      }
-    } else {
-      console.log("\nPor favor, digite uma letra válida.");
-    }
-
+    const resultado = processarLetraDigitada(letraDigitada, erros, palavraEscolhida, palavraOculta, jogoGanho);
+    
     // Atualiza as variáveis com os valores retornados pela função verificarLetraDigitada
-    // jogoGanho = resultado.novoResultadoJogoGanho;
-    // palavraOculta = resultado.novaPalavraOculta;
-    // erros = resultado.errosAtualizados;
+    jogoGanho = resultado.novoResultadoJogoGanho;
+    palavraOculta = resultado.novaPalavraOculta;
+    erros = resultado.errosAtualizados;
 
   }
   // Consumindo função que verifica a vitoria ou derrota
