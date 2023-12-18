@@ -4,9 +4,9 @@ import {
   validarLetraDigitada, 
   verificarJogoGanho, 
   verificarLetraPresenteNaPalavra,
-  exibirChancesDeErro,
+  jogadasRestantes,
   atualizarPalavraOculta, 
-  exibirMensagemFimDeJogo, 
+  exibirMensagemFimDeJogo,
 } from "./funcoes/funcoes.js";
 
 function jogarForca() { // Função principal do jogo
@@ -15,19 +15,17 @@ function jogarForca() { // Função principal do jogo
   const palavraEscolhida = listaDeFrutas[Math.floor(Math.random() * listaDeFrutas.length)];
 
   // Oculta a palavra escolhida com 'underlines' deixando visivel somente a letra inicial
-  let palavraOculta = palavraEscolhida[0].toUpperCase() + "_".repeat(palavraEscolhida.length - 1);
+  let primeiraLetra = palavraEscolhida[0]
+  let underline = "_".repeat(palavraEscolhida.length - 1)
+  let palavraOculta = primeiraLetra + underline
 
   let erros = 0;
-
-  let jogoGanho = false;
-
-  let statusJogo;
+  let statusJogo = 'andamento' // Jogo inicia com o status 'andamento'
 
   console.log(`------------JOGO DA FORCA------------`);
-
   console.log(`\nNome da fruta com ${palavraEscolhida.length} letras:`);
 
-  while (erros < 4 && !jogoGanho) { // Loop continua enquanto o número de erros for menor que 4 e houver qualquer caractere especial na palavra oculta 
+  while (statusJogo === 'andamento') { // Loop continua enquanto o status do jogo estiver em 'andamento' 
 
     console.log(`\nFruta: ${palavraOculta}`);
 
@@ -37,18 +35,26 @@ function jogarForca() { // Função principal do jogo
     if (validarLetraDigitada(letraDigitada)) {
       if (verificarLetraPresenteNaPalavra(palavraEscolhida, letraDigitada)) {
         palavraOculta = atualizarPalavraOculta(palavraOculta, letraDigitada, palavraEscolhida);
-        jogoGanho = verificarJogoGanho(palavraOculta, palavraEscolhida)
-        statusJogo = jogoGanho
+        if (verificarJogoGanho(palavraOculta, palavraEscolhida)) {
+          statusJogo = 'venceu'
+        }
       } else {
         erros++
-        exibirChancesDeErro(erros)        
+
+        const chances = jogadasRestantes(erros)
+
+        if(chances > 0) { // 
+          console.log(`OPÇÃO ERRADA! Você ainda tem ${chances} chance(s)!`);
+        } else {
+          statusJogo = 'perdeu' // Atualiza o status do jogo para 'perdeu' em caso de erros igual a 4
+        }
       }
     } else {
       console.log("\nPor favor, digite uma letra válida.");
     }    
   }
-  // Consumindo função que verifica a vitoria ou derrota
-  exibirMensagemFimDeJogo(statusJogo, palavraOculta, palavraEscolhida);
+  // Consumindo função que exibe uma mensagem de vitoria ou derrota
+  exibirMensagemFimDeJogo(statusJogo);
 
 }
 
